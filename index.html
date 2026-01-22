@@ -96,3 +96,32 @@ Bala Maruthi – Frontend
 
 </body>
 </html>
+<section id="chat">
+  <h2>Chat with AI</h2>
+  <div id="chatbox" style="border:1px solid #ccc; height:300px; overflow:auto; padding:10px;"></div>
+  <input type="text" id="userInput" placeholder="Ask a question..." style="width:80%;">
+  <button onclick="sendMessage()">Send</button>
+</section>
+
+<script>
+async function sendMessage() {
+  const input = document.getElementById('userInput').value;
+  const chatbox = document.getElementById('chatbox');
+
+  // Show user message
+  chatbox.innerHTML += "<b>You:</b> " + input + "<br>";
+
+  // Call backend API
+  const response = await fetch('https://YOUR_BACKEND_URL/chat', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({message: input})
+  });
+
+  const data = await response.json();
+  chatbox.innerHTML += "<b>AI:</b> " + data.reply + "<br>";
+
+  document.getElementById('userInput').value = '';
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+</script>
